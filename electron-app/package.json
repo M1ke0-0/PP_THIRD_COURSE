@@ -1,0 +1,14 @@
+{
+  "name": "exam-kiosk",
+  "version": "0.1.0",
+  "description": "Защищённый клиент для прохождения тестов (kiosk mode)",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev"
+  },
+  "devDependencies": {
+    "electron": "^44.7.2"
+  }
+}
