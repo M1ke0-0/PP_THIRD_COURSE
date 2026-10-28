@@ -4,6 +4,7 @@ const config = require('./config.json');
 
 const isDev = process.argv.includes('--dev');
 const examUrl = process.env.EXAM_URL || config.examUrl;
+const clientKey = process.env.EXAM_CLIENT_KEY || config.clientKey;
 const allowedOrigin = new URL(examUrl).origin;
 
 function createWindow() {
@@ -22,8 +23,16 @@ function createWindow() {
     },
   });
 
-  // Сервер по этому суффиксу отличает киоск-клиент от обычного браузера.
   win.webContents.setUserAgent(`${win.webContents.getUserAgent()} ExamKiosk/0.1`);
+
+  // По этому ключу сервер отличает киоск от обычного браузера. Отправляется только на сервер тестирования.
+  win.webContents.session.webRequest.onBeforeSendHeaders(
+    { urls: [`${allowedOrigin}/*`] },
+    (details, callback) => {
+      details.requestHeaders['X-Exam-Client-Key'] = clientKey;
+      callback({ requestHeaders: details.requestHeaders });
+    },
+  );
 
   win.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
 

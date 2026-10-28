@@ -107,4 +107,9 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
+    'EXCEPTION_HANDLER': 'api.exceptions.api_exception_handler',
 }
+
+# Ключ клиента-киоска: клиент передаёт его в заголовке X-Exam-Client-Key.
+# Перед каждой сессией экзаменов ключ меняется и вшивается в сборку клиента.
+EXAM_CLIENT_KEY = os.getenv('EXAM_CLIENT_KEY', 'dev-kiosk-key')
